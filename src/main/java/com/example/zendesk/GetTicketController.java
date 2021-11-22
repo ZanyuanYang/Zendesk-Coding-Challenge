@@ -18,6 +18,11 @@ import java.util.Objects;
 @Controller
 public class GetTicketController {
 
+    @GetMapping("/")
+    public String getAllTickets() {
+        return "/ticket/index";
+    }
+
     @GetMapping("/tickets")
     public String getAllTickets(ModelMap map) {
 

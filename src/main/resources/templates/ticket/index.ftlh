@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Zendesk Intern Coding Challenge</title>
+    <style>
+        .title{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <h1>Zendesk Intern Coding Challenge</h1>
+        <a href="/tickets">View All Tickets</a>
+    </div>
+</body>
+</html>
