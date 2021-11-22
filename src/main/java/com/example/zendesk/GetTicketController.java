@@ -18,11 +18,13 @@ import java.util.Objects;
 @Controller
 public class GetTicketController {
 
+    // http://localhost:8080
     @GetMapping("/")
     public String getAllTickets() {
         return "/ticket/index";
     }
 
+    // http://localhost:8080/tickets
     @GetMapping("/tickets")
     public String getAllTickets(ModelMap map) {
 
@@ -32,6 +34,7 @@ public class GetTicketController {
         return "/ticket/ticket";
     }
 
+    // http://localhost:8080/singleTickets?ticketId=??
     @GetMapping("/singleTickets")
     public String getSingleTickets(@RequestParam("ticketId") int ticketId, ModelMap map) {
 
@@ -45,6 +48,10 @@ public class GetTicketController {
         return "/ticket/singleTicket";
     }
 
+
+    /**
+     * @return return all the ticket
+     */
     public ArrayList<Object> getTickets(){
         String json = "";
         try {
@@ -92,6 +99,10 @@ public class GetTicketController {
         return null;
     }
 
+    /**
+     * @param ticket_id this is the ticket id
+     * @return return the specific tickets according to ticket id
+     */
     public Object getSingleTicketHelper(String ticket_id){
         String json = "";
         Object listdata = null;
