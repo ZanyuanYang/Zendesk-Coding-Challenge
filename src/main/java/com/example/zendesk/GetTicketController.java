@@ -11,10 +11,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Objects;
 
+/**
+ * @author Zanyuan Yang
+ */
 @Controller
 public class GetTicketController {
 
@@ -56,10 +61,10 @@ public class GetTicketController {
         String json = "";
         try {
             // request url
-            String url = "https://zcczanyuanyang.zendesk.com/api/v2/tickets.json";
+            String url = GlobalConst.URL;
 
             // create auth credentials
-            String authStr = "jayingyoung@gmail.com:Jaying1996123";
+            String authStr = GlobalConst.AUTH;
             String base64Creds = Base64.getEncoder().encodeToString(authStr.getBytes());
 
             // create headers
@@ -108,10 +113,10 @@ public class GetTicketController {
         Object listdata = null;
         try {
             // request url
-            String url = "https://zcczanyuanyang.zendesk.com/api/v2/tickets.json";
+            String url = GlobalConst.URL;
 
             // create auth credentials
-            String authStr = "jayingyoung@gmail.com:Jaying1996123";
+            String authStr = GlobalConst.AUTH;
             String base64Creds = Base64.getEncoder().encodeToString(authStr.getBytes());
 
             // create headers
