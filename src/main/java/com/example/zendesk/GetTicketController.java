@@ -101,7 +101,6 @@ public class GetTicketController {
                     //Iterating JSON array
                     for (int i=0;i<jsonArray.length();i++){
                         //Adding each element of JSON array into ArrayList
-                        JSONObject row = jsonArray.getJSONObject(i);
                         listdata.add(jsonArray.get(i));
                     }
                 }
@@ -110,32 +109,6 @@ public class GetTicketController {
                 System.out.println(e);
                 return null;
             }
-            // make a request
-//            ResponseEntity<String> response = new RestTemplate().exchange(url, HttpMethod.GET, request, String.class);
-//            HttpStatus statusCode = response.getStatusCode();
-//            System.out.println("response.getStatusCode(): " + statusCode);
-//
-//            // get JSON response
-//            json = response.getBody();
-//
-//            JSONObject jsnobject = new JSONObject(json);
-//
-//            //Getting tickets JSON array from the JSON object
-//            JSONArray jsonArray = jsnobject.getJSONArray("tickets");
-//
-//            //Creating an empty ArrayList of type Object
-//            ArrayList<Object> listdata = new ArrayList<Object>();
-//
-//            if (jsonArray != null) {
-//                //Iterating JSON array
-//                for (int i=0;i<jsonArray.length();i++){
-//                    //Adding each element of JSON array into ArrayList
-//                    JSONObject row = jsonArray.getJSONObject(i);
-//                    listdata.add(jsonArray.get(i));
-//                }
-//            }
-//            return listdata;
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
