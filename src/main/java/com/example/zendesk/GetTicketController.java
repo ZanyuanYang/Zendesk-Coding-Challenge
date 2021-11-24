@@ -1,14 +1,13 @@
 package com.example.zendesk;
 
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
@@ -34,6 +33,10 @@ public class GetTicketController {
     public String getAllTickets(ModelMap map) {
 
         ArrayList<Object> ticketsList = getTickets();
+        map.put("authenticate", true);
+        if(ticketsList == null){
+            map.put("authenticate", false);
+        }
         map.put("tickets", ticketsList);
 
         return "/ticket/ticket";
@@ -43,12 +46,18 @@ public class GetTicketController {
     @GetMapping("/singleTickets")
     public String getSingleTickets(@RequestParam("ticketId") int ticketId, ModelMap map) {
 
-        Object singleTicket = getSingleTicketHelper(ticketId+"");
-        map.put("ticketsExistOrNot", true);
-        if(Objects.isNull(singleTicket)){
-            map.put("ticketsExistOrNot", false);
+        ArrayList<Object> ticketsList = getTickets();
+        map.put("authenticate", true);
+        if(ticketsList == null){
+            map.put("authenticate", false);
+        }else{
+            Object singleTicket = getSingleTicketHelper(ticketId+"");
+            map.put("ticketsExistOrNot", true);
+            if(Objects.isNull(singleTicket)){
+                map.put("ticketsExistOrNot", false);
+            }
+            map.put("singleTickets", singleTicket);
         }
-        map.put("singleTickets", singleTicket);
 
         return "/ticket/singleTicket";
     }
@@ -74,29 +83,58 @@ public class GetTicketController {
             // create request
             HttpEntity request = new HttpEntity(headers);
 
-            // make a request
-            ResponseEntity<String> response = new RestTemplate().exchange(url, HttpMethod.GET, request, String.class);
+            try{
+                ResponseEntity<String> response = new RestTemplate().exchange(url, HttpMethod.GET, request, String.class);
 
-            // get JSON response
-            json = response.getBody();
+                // get JSON response
+                json = response.getBody();
 
-            JSONObject jsnobject = new JSONObject(json);
+                JSONObject jsnobject = new JSONObject(json);
 
-            //Getting tickets JSON array from the JSON object
-            JSONArray jsonArray = jsnobject.getJSONArray("tickets");
+                //Getting tickets JSON array from the JSON object
+                JSONArray jsonArray = jsnobject.getJSONArray("tickets");
 
-            //Creating an empty ArrayList of type Object
-            ArrayList<Object> listdata = new ArrayList<Object>();
+                //Creating an empty ArrayList of type Object
+                ArrayList<Object> listdata = new ArrayList<Object>();
 
-            if (jsonArray != null) {
-                //Iterating JSON array
-                for (int i=0;i<jsonArray.length();i++){
-                    //Adding each element of JSON array into ArrayList
-                    JSONObject row = jsonArray.getJSONObject(i);
-                    listdata.add(jsonArray.get(i));
+                if (jsonArray != null) {
+                    //Iterating JSON array
+                    for (int i=0;i<jsonArray.length();i++){
+                        //Adding each element of JSON array into ArrayList
+                        JSONObject row = jsonArray.getJSONObject(i);
+                        listdata.add(jsonArray.get(i));
+                    }
                 }
+                return listdata;
+            }catch(HttpClientErrorException e){
+                System.out.println(e);
+                return null;
             }
-            return listdata;
+            // make a request
+//            ResponseEntity<String> response = new RestTemplate().exchange(url, HttpMethod.GET, request, String.class);
+//            HttpStatus statusCode = response.getStatusCode();
+//            System.out.println("response.getStatusCode(): " + statusCode);
+//
+//            // get JSON response
+//            json = response.getBody();
+//
+//            JSONObject jsnobject = new JSONObject(json);
+//
+//            //Getting tickets JSON array from the JSON object
+//            JSONArray jsonArray = jsnobject.getJSONArray("tickets");
+//
+//            //Creating an empty ArrayList of type Object
+//            ArrayList<Object> listdata = new ArrayList<Object>();
+//
+//            if (jsonArray != null) {
+//                //Iterating JSON array
+//                for (int i=0;i<jsonArray.length();i++){
+//                    //Adding each element of JSON array into ArrayList
+//                    JSONObject row = jsonArray.getJSONObject(i);
+//                    listdata.add(jsonArray.get(i));
+//                }
+//            }
+//            return listdata;
 
         } catch (Exception ex) {
             ex.printStackTrace();

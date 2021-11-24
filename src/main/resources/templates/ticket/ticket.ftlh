@@ -16,40 +16,44 @@
 </head>
 <body>
     <div class="container">
-        <#assign total_tickets = 0 >
-        <#list tickets as ticket>
-            <#assign total_tickets = total_tickets + 1 >
-        </#list>
         <h1 class="text-center">Mobile Ticket Viewer</h1>
-        <h3>Total Tickets: ${total_tickets}</h3>
-        <#include "./pagination.ftlh">
-
+        <#if authenticate == false >
+            <h2 style="color: red;">Error, Couldn't authenticate you</h2>
+            <h2 style="color: red;">Please Enter correct email address or token</h2>
+        <#else>
+            <#assign total_tickets = 0 >
+            <#list tickets as ticket>
+                <#assign total_tickets = total_tickets + 1 >
+            </#list>
+            <h3>Total Tickets: ${total_tickets}</h3>
+            <#include "./pagination.ftlh">
         <#--  table start-->
-        <div class="row clearfix">
-            <div class="col-md-12 column">
-                <table class="table table-responsive-xl">
-                    <thead class="thead-dark">
-                    <tr class="table-info  table-hover text-center">
-                        <th>id</th>
-                        <th>Subject</th>
-                        <th>Created Time</th>
-                        <th>Update Time</th>
-                    </tr>
-                    </thead>
-                    <tbody id="loop">
-                    <#list tickets as ticket>
-                        <tr class="list-group_name" id="list-group_name">
-                            <td>${ticket.id}</td>
-                            <td><a href="/singleTickets?ticketId=${ticket.id}">${ticket.subject}</a></td>
-                            <td>${ticket.created_at}</td>
-                            <td>${ticket.updated_at}</td>
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <table class="table table-responsive-xl">
+                        <thead class="thead-dark">
+                        <tr class="table-info  table-hover text-center">
+                            <th>id</th>
+                            <th>Subject</th>
+                            <th>Created Time</th>
+                            <th>Update Time</th>
                         </tr>
-                    </#list>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody id="loop">
+                        <#list tickets as ticket>
+                            <tr class="list-group_name" id="list-group_name">
+                                <td>${ticket.id}</td>
+                                <td><a href="/singleTickets?ticketId=${ticket.id}">${ticket.subject}</a></td>
+                                <td>${ticket.created_at}</td>
+                                <td>${ticket.updated_at}</td>
+                            </tr>
+                        </#list>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
         <#--  table end-->
+        </#if>
     </div>
 
 
