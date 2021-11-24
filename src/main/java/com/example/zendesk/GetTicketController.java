@@ -28,6 +28,12 @@ public class GetTicketController {
         return "/ticket/index";
     }
 
+    /**
+     * This method will return all the ticket and show in the webpage
+     * If the API is unavailable or the response is invalid, the webpage will display error message
+     * @param map this will store ticket list
+     * @return return the webpage
+     */
     // http://localhost:8080/tickets
     @GetMapping("/tickets")
     public String getAllTickets(ModelMap map) {
@@ -42,7 +48,14 @@ public class GetTicketController {
         return "/ticket/ticket";
     }
 
-    // http://localhost:8080/singleTickets?ticketId=??
+    /**
+     * This method will return the single ticket webpage based on ticket id
+     * If ticket doesn't exist, it will display error message
+     * URL: http://localhost:8080/singleTickets?ticketId=??
+     * @param ticketId parameter for address
+     * @param map this will store the single ticket object based on the ticker id
+     * @return return the webpage
+     */
     @GetMapping("/singleTickets")
     public String getSingleTickets(@RequestParam("ticketId") int ticketId, ModelMap map) {
 
@@ -64,6 +77,8 @@ public class GetTicketController {
 
 
     /**
+     * This method will return all the ticket which store in ArrayList
+     * If the API is unavailable or the response is invalid, it will return null
      * @return return all the ticket
      */
     public ArrayList<Object> getTickets(){
@@ -116,6 +131,8 @@ public class GetTicketController {
     }
 
     /**
+     * This method will return the specific ticket according to ticket id
+     * If the ticket doesn't exist, it will return null
      * @param ticket_id this is the ticket id
      * @return return the specific tickets according to ticket id
      */
